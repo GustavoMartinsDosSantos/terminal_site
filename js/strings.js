@@ -2,10 +2,12 @@ const userLanguage = navigator.language || navigator.userLanguage
 
 const strings = {
     'pt-BR': {
-        commandNotFound: 'Comando \'<?>\' não encontrado'
+        commandNotFound: 'Comando \'<?>\' não encontrado',
+        notADirectory: 'cd: \'<?>\': O parâmetro passado não é um diretório'
     },
     'en-US': {
-        commandNotFound: 'Command \'<?>\' not found'
+        commandNotFound: 'Command \'<?>\' not found',
+        notADirectory: 'cd: \'<?>\': Not a directory'
     }
 }
 

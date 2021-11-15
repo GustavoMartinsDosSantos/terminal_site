@@ -1,16 +1,14 @@
 let navActualDir = ['home']
 
-const navigationTree = {
-    home:{
+let navigationTree = {
+    home: {
         projects: {
-            react:{},
+            laravel: {
+                clonegram:""
+            },
         },
         skills: {
-            
+
         }
     }
-}
-
-function ChangeDirectory(){
-    
 }

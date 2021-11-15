@@ -1,72 +1,71 @@
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Terminal</title>
-        <!-- Ubuntu -->
-        <style>
-            body, span, input, table{
-                color: #FFFFFF;
-                font-weight: bold;
-                font-family: monospace;
-                font-size: 16px;
-            }
 
-            body, span{
-                padding: 0px;
-                margin: 0px;
-                background-color: #2D1525;
-            }
+<head>
+    <meta charset="UTF-8">
+    <title>Terminal</title>
+    <!-- Ubuntu -->
+    <style>
+        body,
+        span,
+        input,
+        table {
+            color: #FFFFFF;
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 16px;
+        }
 
-            input{
-                outline: none;
-                background-color: #00000000;
-                border: none;
-                flex-grow: 1;
-                padding: 0px;
-            }
+        body,
+        span {
+            padding: 0px;
+            margin: 0px;
+            background-color: #2D1525;
+        }
 
-            terminalUser{
-                color: #669922;
-            }
+        input {
+            outline: none;
+            background-color: #00000000;
+            border: none;
+            flex-grow: 1;
+            padding: 0px;
+        }
 
-            terminalDir{
-                color: #3e3bd5;
-            }
+        terminalUser {
+            color: #669922;
+        }
 
-            .terminalLine{
-                width: 100%;
-                display: flex;
-            }
-            
-            .terminalLine > span {
-                padding-right: 7px;
-            }
+        terminalDir {
+            color: #3e3bd5;
+        }
 
-        </style>
-    </head>
-    <body>
-        <!-- <span style='font-size: 60px;'>&#x1F0A1;&#x1F0B9;&#x1F0C4;</span> -->
-        <div id='terminalContainer'>
-            <div id="actualTerminalLine" class="terminalLine">
-                <span><terminalUser>gustavo@pc</terminalUser>:<terminalDir id="navDirSpan">~</terminalDir>$</span>
-                <input id="actualLineInput" type="text" onkeydown="EnterCommand(event)" onblur="this.focus()" autofocus></input>
-            </div>
-            <div style="float: left">
-                <table>
-                    <tr style='border: solid 2px white'>
-                        <td style='border: solid 2px white'>
-                            ReactJS/
-                        </td>
-                        <td style='border: solid 2px white'>
-                            React-native/   
-                        </td>
-                    </tr>
-                </table>
-            </div>
+        .terminalLine {
+            width: 100%;
+            display: flex;
+        }
+
+        .terminalLine>span {
+            padding-right: 7px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <span style='font-size: 60px;'>&#x1F0A1;&#x1F0B9;&#x1F0C4;</span> -->
+    <div id='terminalContainer'>
+        <div id="actualTerminalLine" class="terminalLine">
+            <span>
+                <terminalUser>gustavo@pc</terminalUser>:<terminalDir id="navDirSpan">~</terminalDir>$
+            </span>
+            <input id="actualLineInput" type="text" onkeydown="EnterCommand(event)" onblur="this.focus()"
+                autofocus></input>
         </div>
-        <script src='./js/functions.js'></script>
-        <script src="./js/commands.js"></script>
-        <script src="./js/strings.js"></script>
-        <script src="./js/navigation.js"></script>
-    </body>
+        <div style="float: left">
+        </div>
+    </div>
+    <script src='./js/functions.js'></script>
+    <script src="./js/commands.js"></script>
+    <script src="./js/strings.js"></script>
+    <script src="./js/navigation.js"></script>
+</body>
+
 </html>
