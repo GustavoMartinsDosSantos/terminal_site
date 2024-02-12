@@ -1,3 +1,8 @@
+setTimeout(() => {
+    CallCommand(['help'])
+    AdjustNextLine()
+}, 1000);
+
 function EnterCommand(e) {
     if (e.key !== 'Enter')
         return
@@ -18,7 +23,11 @@ function CallCommand(args) {
     }
 }
 
-function AdjustNextLine(e) {
+function AdjustNextLine(e = null) {
+    if(e === null){
+        e = {}
+        e.target = document.getElementById('actualLineInput')
+    }
     const actualDir = navActualDir.join('/').replace('home', '')
     let newTerminalLineHTML = `<div id="actualTerminalLine" class="terminalLine">\
         <span><terminalUser>gustavo@pc</terminalUser>:<terminalDir>${navActualDir.length === 1 ? '~' : actualDir}</terminalDir>$</span>\

@@ -1,8 +1,20 @@
 let commands = {
+    help: () => Help(),
     echo: args => Echo(args),
     clear: () => Clear(),
     ls: () => Ls(),
     cd: args => Cd(args)
+}
+
+function Help() {
+    let helpElement = document.createElement('span')
+    helpElement.innerHTML += 'GNU bash, version 5.0.17(1)-release (x86_64-pc-linux-gnu)<br>\
+    These shell commands are defined internally.  Type `help\' to see this list.<br>'
+    helpElement.innerHTML += '<br>List of available commands:<br>'
+    Object.keys(commands).forEach(element => {
+        helpElement.innerHTML += element + '<br>'
+    });
+    InsertInScreen(helpElement)
 }
 
 function Echo(args) {
@@ -33,16 +45,18 @@ function Ls() {
 function Cd(args) {
     const dirContent = GetDirectoryContent()
     const toDirectory = args[0]
-    if (toDirectory === '..'){
+    if (args.length === 0) {
+        navActualDir = ['home']
+    }
+    else if (toDirectory === '..') {
         navActualDir.splice(navActualDir.length - 1, 1)
-    } else if(Object.keys(dirContent).includes(toDirectory)){
-        if(typeof dirContent[toDirectory] !== 'object'){
+    } else if (Object.keys(dirContent).includes(toDirectory)) {
+        if (typeof dirContent[toDirectory] !== 'object') {
             const errSpan = document.createElement('span')
             errSpan.innerText = strings[userLanguage].notADirectory.replace('<?>', toDirectory)
             InsertInScreen(errSpan)
             return
         }
-            
         navActualDir.push(toDirectory)
     }
 }
