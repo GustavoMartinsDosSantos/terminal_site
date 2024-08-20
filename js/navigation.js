@@ -9,7 +9,7 @@ let navigationTree = {
         },
         skills: {
             "PHP - 2 years": "",
-            "JavaScript - 2 years": "",
+            "JavaScript - 5 years": console.log("SALVE"),
         }
     }
 }

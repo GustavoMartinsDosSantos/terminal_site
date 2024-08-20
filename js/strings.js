@@ -1,11 +1,3 @@
-const supportedLanguages = Object.keys(strings);
-
-let userLanguage = navigator.language || navigator.userLanguage;
-
-if (!supportedLanguages.includes(userLanguage)) {
-  userLanguage = "en-US";
-}
-
 const strings = {
   "pt-BR": {
     commandNotFound: "Comando '<?>' não encontrado",
@@ -16,3 +8,12 @@ const strings = {
     notADirectory: "cd: '<?>': Not a directory",
   },
 };
+
+const supportedLanguages = Object.keys(strings);
+
+let userLanguage = navigator.language || navigator.userLanguage;
+
+if (!supportedLanguages.includes(userLanguage)) {
+  userLanguage = "en-US";
+}
+
