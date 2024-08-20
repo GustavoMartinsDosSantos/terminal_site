@@ -19,7 +19,7 @@
         span {
             padding: 0px;
             margin: 0px;
-            background-color: #161616;
+            background-color: #262626;
         }
 
         input {
@@ -62,7 +62,7 @@
             <span>
                 <terminalUser>gustavo@pc</terminalUser>:<terminalDir id="navDirSpan">~</terminalDir>$
             </span>
-            <input id="actualLineInput" type="text" onkeydown="EnterCommand(event)" onblur="this.focus()"
+            <input id="actualLineInput" type="text" onkeydown="onKeyDown(event)" onblur="this.focus()"
                 autofocus></input>
         </div>
         <div style="float: left">
@@ -72,6 +72,7 @@
     <script src="./js/commands.js"></script>
     <script src="./js/strings.js"></script>
     <script src="./js/navigation.js"></script>
+    <script src="./js/utils.js"></script>
 </body>
 
 </html>
