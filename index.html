@@ -1,78 +1,29 @@
-<html>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Portfólio de Gustavo Martins dos Santos — Full-Stack Developer." />
+    <meta name="theme-color" content="#160b13" />
+    <title>Gustavo Santos — Terminal</title>
+    <link rel="stylesheet" href="./styles.css?v=3" />
+  </head>
+  <body>
+    <main class="shell" aria-label="Portfólio em formato de terminal">
+      <section id="terminal" class="terminal" aria-live="polite" aria-label="Saída do terminal"></section>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Terminal</title>
-    <!-- Ubuntu -->
-    <style>
-        body,
-        span,
-        input,
-        table {
-            color: #FFFFFF;
-            font-weight: bold;
-            font-family: "Ubuntu Mono", monospace;
-            font-size: 16px;
-        }
+      <form id="commandForm" class="command-line" autocomplete="off">
+        <label class="prompt" for="commandInput">
+          <span class="user">gustavo@portfolio</span><span>:</span><span id="promptPath" class="path">~</span><span>$</span>
+        </label>
+        <input id="commandInput" name="command" type="text" aria-label="Digite um comando" autofocus spellcheck="false" />
+      </form>
+    </main>
 
-        body,
-        span {
-            padding: 0px;
-            margin: 0px;
-            background-color: #262626;
-        }
-
-        input {
-            outline: none;
-            background-color: #00000000;
-            border: none;
-            flex-grow: 1;
-            padding: 0px;
-        }
-
-        terminalUser {
-            color: #669922;
-        }
-
-        terminalDir {
-            color: #3e3bd5;
-        }
-
-        .terminalLine {
-            width: 100%;
-            display: flex;
-        }
-
-        .terminalLine>span {
-            padding-right: 7px;
-        }
-
-        td{
-            padding-right: 20px;
-        }
-    </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-</head>
-
-<body>
-    <div id='terminalContainer'>
-        <div id="actualTerminalLine" class="terminalLine">
-            <span>
-                <terminalUser>gustavo@pc</terminalUser>:<terminalDir id="navDirSpan">~</terminalDir>$
-            </span>
-            <input id="actualLineInput" type="text" onkeydown="onKeyDown(event)" onblur="this.focus()"
-                autofocus></input>
-        </div>
-        <div style="float: left">
-        </div>
-    </div>
-    <script src='./js/functions.js'></script>
-    <script src="./js/commands.js"></script>
-    <script src="./js/strings.js"></script>
-    <script src="./js/navigation.js"></script>
-    <script src="./js/utils.js"></script>
-</body>
-
+    <script src="./js/strings.js?v=7"></script>
+    <script src="./js/navigation.js?v=7"></script>
+    <script src="./js/utils.js?v=7"></script>
+    <script src="./js/commands.js?v=7"></script>
+    <script src="./js/functions.js?v=7"></script>
+  </body>
 </html>

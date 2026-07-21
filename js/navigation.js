@@ -1,44 +1,26 @@
-let navActualDir = ["home"];
-
-let navigationTree = {
+const fileSystem = {
   home: {
+    "about.txt": "about",
+    "experience.log": "experience",
     projects: {
-      laravel: {
-        clonegram: "",
-      },
+      "noteit.md": "project noteit",
+      "orbit.md": "project orbit",
+      "supernova.md": "project supernova",
+      "kyndar.md": "project kyndar",
+      "hotriders.md": "project hotriders",
+      "pulse-factory.md": "project pulse-factory",
     },
-    skills: {
-      PHP: {
-        "Laravel - 1 year": "",
-        "Slim - 2 years": "",
-      },
-      JavaScript: {
-        "React - 3 years": "",
-        "NextJs - 2 years": "",
-        "Vue - 1 year": "",
-        "NestJs - 1 year": "",
-        "Google Cloud Functions - 1 year": "",
-        "React Native - 1 year": "",
-      },
-      TypeScript: {
-        "React - 3 years": "",
-        "NextJs - 2 years": "",
-        "Vue - 1 year": "",
-        "NestJs - 1 year": "",
-        "Google Cloud Functions - 1 year": "",
-        "React Native - 1 year": "",
-      },
-      DBs: {
-        "MySQL - 2 years": "",
-        "PostgresSQL - 2 years": "",
-        "Spanner (GCP) - 1 year": "",
-      },
-      Others: {
-        "Docker - 3 years": "",
-        "Linux - 4 years": "",
-        "Google Cloud Platform - 1 year": "",
-        "Unity (C#) - Just a hobby :P": "",
-      }
-    },
+    "skills.json": "skills",
+    "contact.vcf": "contact",
   },
 };
+
+let currentPath = ["home"];
+
+function getDirectory(path = currentPath) {
+  return path.reduce((directory, segment) => directory[segment], fileSystem);
+}
+
+function displayPath() {
+  return currentPath.length === 1 ? "~" : `~/${currentPath.slice(1).join("/")}`;
+}

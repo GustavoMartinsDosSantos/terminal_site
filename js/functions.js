@@ -1,98 +1,67 @@
-setTimeout(() => {
-  callCommand(["help"]);
-  adjustNextLine();
-}, 1000);
+const terminal = document.getElementById("terminal");
+const form = document.getElementById("commandForm");
+const input = document.getElementById("commandInput");
+const history = [];
+let historyIndex = 0;
 
-function onKeyDown(e) {
-  if (e.key === "Enter") {
-    if (e.target.value !== "") {
-      callCommand(String(e.target.value).split(" "));
-      adjustNextLine(e);
-      return;
-    }
-  } else if (e.key === "Tab") {
-    if (e.target.value !== "") {
-      e.preventDefault();
-      const previousInputValue = e.target.value
-      const autocompleteResult = autocomplete(e.target.value);
-      if (autocompleteResult.length === 1) {
-        if (e.target.value.startsWith("cd")) {
-          e.target.value = `cd ${autocompleteResult}/`;
-        } else {
-          e.target.value = autocompleteResult[0];
-        }
-      } else if(autocompleteResult.length > 1 && e.target.value.startsWith("cd")){
-        const dirContent = autocompleteResult;
-        const directoryTable = document.createElement("table");
-        const directoryElementColumn = document.createElement("tr");
-        dirContent.forEach((element) => {
-          const directoryElement = document.createElement("td");
-          directoryElement.innerText = `${element}/`
-          directoryElementColumn.appendChild(directoryElement);
-        });
-        directoryTable.appendChild(directoryElementColumn);
-        insertInScreen(directoryTable);
-        adjustNextLine(e)
-        document.getElementById("actualLineInput").value = previousInputValue
-        e.target.value = "previousInputValue"
-      }
-      return;
-    }
+function updatePrompt() {
+  document.getElementById("promptPath").textContent = displayPath();
+}
+
+function printOutput(html, className = "output") {
+  if (html === null || html === undefined || html === "") return;
+  const element = document.createElement("div");
+  element.className = className;
+  element.innerHTML = html;
+  terminal.appendChild(element);
+}
+
+function runCommand(rawCommand, showEcho = true) {
+  const value = rawCommand.trim();
+  if (!value) return;
+  if (showEcho) printOutput(`<span class="prompt"><span class="user">gustavo@portfolio</span>:<span class="path">${displayPath()}</span>$</span><span class="typed">${escapeHtml(value)}</span>`, "echo-line");
+
+  const [commandName, ...args] = tokenize(value);
+  const command = commands[commandName.toLowerCase()];
+  if (!command) printOutput(`<span class="error">${escapeHtml(commandName)}: ${ui.commandNotFound}.</span> <span class="muted">${ui.typeHelp}</span>`);
+  else printOutput(command(args));
+
+  terminal.scrollTop = terminal.scrollHeight;
+  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+}
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const value = input.value;
+  if (value.trim()) { history.push(value); historyIndex = history.length; runCommand(value); }
+  input.value = "";
+});
+
+input.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+    event.preventDefault();
+    historyIndex = Math.max(0, Math.min(history.length, historyIndex + (event.key === "ArrowUp" ? -1 : 1)));
+    input.value = history[historyIndex] || "";
+    input.setSelectionRange(input.value.length, input.value.length);
   }
-}
-
-function callCommand(args) {
-  const command = args.splice(0, 1)[0];
-  if (command in commands) {
-    insertInScreen(commands[command](args));
-  } else {
-    const messageContainer = document.createElement("span");
-    messageContainer.innerText = strings[userLanguage].commandNotFound.replace(
-      "<?>",
-      command
-    );
-    insertInScreen(messageContainer);
+  if (event.key === "Tab") {
+    event.preventDefault();
+    const parts = input.value.split(/\s+/);
+    const partial = parts.at(-1).toLowerCase();
+    let choices = parts.length === 1 ? commandNames : parts[0] === "project" ? Object.keys(portfolio.projects) : parts[0] === "cd" || parts[0] === "cat" ? Object.keys(getDirectory()) : [];
+    const matches = choices.filter((choice) => choice.toLowerCase().startsWith(partial));
+    if (matches.length === 1) { parts[parts.length - 1] = matches[0]; input.value = parts.join(" "); }
+    else if (matches.length > 1) printOutput(matches.join("    "), "output muted");
   }
-}
+});
 
-function adjustNextLine(e = null) {
-  if (e === null) {
-    e = {};
-    e.target = document.getElementById("actualLineInput");
-  }
-  const actualDir = navActualDir.join("/").replace("home", "");
-  let newTerminalLineHTML = `<div id="actualTerminalLine" class="terminalLine">\
-        <span><terminalUser>gustavo@pc</terminalUser>:<terminalDir>${
-          navActualDir.length === 1 ? "~" : actualDir
-        }</terminalDir>$</span>\
-        <input id="actualLineInput" type="text" onKeyDown="onKeyDown(event)" onblur="this.focus()" autofocus></input>\
-        </div>`;
-  let actualLine = document.getElementById("actualTerminalLine");
+document.addEventListener("keydown", (event) => {
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "l") { event.preventDefault(); commands.clear(); }
+  if (!event.metaKey && !event.ctrlKey && document.activeElement !== input && event.key.length === 1) input.focus();
+});
 
-  let newLineContentSpan = document.createElement("span");
-  const terminalContainer = document.getElementById("terminalContainer");
+document.querySelector(".shell").addEventListener("click", () => input.focus());
 
-  newLineContentSpan.innerText = e.target.value;
-
-  if (actualLine) {
-    actualLine.removeChild(e.target);
-    actualLine.appendChild(newLineContentSpan);
-    actualLine.removeAttribute("id");
-  }
-  terminalContainer.innerHTML =
-    terminalContainer.innerHTML + newTerminalLineHTML;
-  document.getElementById("actualLineInput").focus();
-}
-
-function insertInScreen(content) {
-  const terminalContainer = document.getElementById("terminalContainer");
-  content ? terminalContainer.appendChild(content) : null;
-}
-
-function getDirectoryContent() {
-  let iteratorDirectory = navigationTree;
-  navActualDir.forEach((directory) => {
-    iteratorDirectory = iteratorDirectory[directory];
-  });
-  return iteratorDirectory;
-}
+if (localStorage.getItem("terminal-theme") === "light") document.body.classList.add("light");
+printOutput(`<div class="muted">${ui.lastLogin}: ${new Intl.DateTimeFormat(userLanguage === "pt" ? "pt-BR" : "en-US", { dateStyle: "medium", timeStyle: "short" }).format(new Date())} ${ui.onPortfolio}</div>`);
+printOutput(`<span class="muted">${ui.welcome.replace("help", '<span class="accent">help</span>')}</span>`);
